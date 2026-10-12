@@ -1,0 +1,29 @@
+body{
+    background-color: #1e1e2e;
+    color: #f895d0;
+    font-family: 'Times New Roman', serif;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+#verse{
+    font-family: monospace;
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.char {
+    color: gray;
+}
+
+.correct{
+    color: rgb(18, 247, 18);
+}
+
+.wrong {
+    color: red;
+    background-color: #5a1a1a;
+}
+
+
+
