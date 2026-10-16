@@ -6,6 +6,7 @@ console.log("Verse text:", verseText);      //prints to browser console the text
 console.log("Verse length:", verseText.length);
 
 verseE1.innerHTML = "";        //clear the inner HTML of the verse element.
+const messageEl = document.getElementById("message");
 
 const charSpans = [];        //create an empty array to store the span elements for each character in the verse.
 
@@ -40,6 +41,14 @@ input.addEventListener("input", function() {
         
     
     }
+
+    if (typed === verseText){
+    messageEl.textContent = "Congratulations! You typed the verse correctly.";
+}
+else {
+    messageEl.textContent = " ";
+}
 });
+
 
 
