@@ -7,6 +7,7 @@ console.log("Verse length:", verseText.length);
 
 verseE1.innerHTML = "";        //clear the inner HTML of the verse element.
 const messageEl = document.getElementById("message");
+const statsEl = document.getElementById("stats");
 
 const charSpans = [];        //create an empty array to store the span elements for each character in the verse.
 
@@ -24,8 +25,21 @@ console.log("Span Count:", charSpans.length);      //prints the array of span el
 const input = document.getElementById("typing-input");
 
 
+let mistakes = 0;      //initialize a variable to keep track of the number of mistakes made by the user while typing the verse.
+let keystrokes = 0;
+let lastLength = 0;
+
+
 input.addEventListener("input", function() {
     const typed = input.value;
+    if (typed.length > lastLength){
+        const position = typed.length - 1;
+        keystrokes++;
+        if (typed[position] !== verseText[position]){
+            mistakes++;
+        }
+    }
+    lastLength = typed.length;
     console.log("Typed:", typed);
     for (let i = 0; i < charSpans.length; i++){
         const span = charSpans[i];
@@ -41,6 +55,9 @@ input.addEventListener("input", function() {
         
     
     }
+
+    const accuracy = ((keystrokes - mistakes) / keystrokes) * 100;
+    statsEl.textContent = "Mistakes: " + mistakes + " | Accuracy: " + accuracy.toFixed(1) + "%";
 
     if (typed === verseText){
     messageEl.textContent = "Congratulations! You typed the verse correctly.";
