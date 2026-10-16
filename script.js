@@ -25,6 +25,7 @@ charSpans[0].classList.add("current");
 console.log("Span Count:", charSpans.length);      //prints the array of span elements to the console. Each span corresponds to a character in the verse.
 
 const input = document.getElementById("typing-input");
+input.maxLength = verseText.length;
 
 
 let mistakes = 0;      //initialize a variable to keep track of the number of mistakes made by the user while typing the verse.
