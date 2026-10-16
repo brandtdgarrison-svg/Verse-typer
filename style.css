@@ -31,5 +31,16 @@ body{
     font-weight: bold;
 }
 
+#typing-input {
+    opacity: 0;
+    position: absolute;
+}
 
+.current {
+    border-left: 2px solid #f5c542
+    animation: blink 1s step-start infinite;
+}
 
+@keyframes blink{
+    50%{ border-color: transparent; }
+}

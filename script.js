@@ -42,6 +42,7 @@ input.addEventListener("input", function() {
     lastLength = typed.length;
     console.log("Typed:", typed);
     for (let i = 0; i < charSpans.length; i++){
+
         const span = charSpans[i];
         span.classList.remove("correct", "wrong");      //remove correct and incorrect classes from the span element. This is done to reset the styling of the span before checking the typed input.
         if (i < typed.length){
@@ -51,6 +52,9 @@ input.addEventListener("input", function() {
             else{
                 span.classList.add("wrong");
             }
+        }
+        else if (i === typed.length){
+            span.classList.add("current");
         }
         
     
@@ -66,6 +70,8 @@ else {
     messageEl.textContent = " ";
 }
 });
+
+input.focus();
 
 
 
