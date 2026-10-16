@@ -20,6 +20,8 @@ for (const letter of verseText) {        //for of loop iterates over each charac
     charSpans.push(span);      //add the span element to the charSpans array. This array will be used later to access each character span for animation or other purposes.
 }
 
+charSpans[0].classList.add("current");
+
 console.log("Span Count:", charSpans.length);      //prints the array of span elements to the console. Each span corresponds to a character in the verse.
 
 const input = document.getElementById("typing-input");
@@ -44,7 +46,7 @@ input.addEventListener("input", function() {
     for (let i = 0; i < charSpans.length; i++){
 
         const span = charSpans[i];
-        span.classList.remove("correct", "wrong");      //remove correct and incorrect classes from the span element. This is done to reset the styling of the span before checking the typed input.
+        span.classList.remove("correct", "wrong", "current");      //remove correct and incorrect classes from the span element. This is done to reset the styling of the span before checking the typed input.
         if (i < typed.length){
             if (typed[i] === verseText[i]){
                 span.classList.add("correct");
@@ -56,9 +58,9 @@ input.addEventListener("input", function() {
         else if (i === typed.length){
             span.classList.add("current");
         }
-        
     
     }
+    
 
     const accuracy = ((keystrokes - mistakes) / keystrokes) * 100;
     statsEl.textContent = "Mistakes: " + mistakes + " | Accuracy: " + accuracy.toFixed(1) + "%";
