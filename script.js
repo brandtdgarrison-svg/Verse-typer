@@ -18,6 +18,7 @@ const randomButton = document.getElementById("random-button");
 let verseText = "";          //textcontents give text inside div as a string. This strong gets stored in verseText variable.
 
 let charSpans = [];
+let startTime = null;
 
 function loadVerse(index) {
     verseText = verses[index].text;        //set the verseText variable to the text of the selected verse object.
@@ -95,6 +96,11 @@ randomButton.addEventListener("click", function() {
 
 input.addEventListener("input", function() {
     const typed = input.value;
+    if (startTime === null){
+        startTime = Date.now();
+    }
+
+
     if (typed.length > lastLength){
         const position = typed.length - 1;
         keystrokes++;
@@ -104,13 +110,19 @@ input.addEventListener("input", function() {
     }
     lastLength = typed.length;
     console.log("Typed:", typed);
+
+
+    let correctCount = 0;
+
     for (let i = 0; i < charSpans.length; i++){
+
 
         const span = charSpans[i];
         span.classList.remove("correct", "wrong", "current");      //remove correct and incorrect classes from the span element. This is done to reset the styling of the span before checking the typed input.
         if (i < typed.length){
             if (typed[i] === verseText[i]){
                 span.classList.add("correct");
+                correctCount++;
             }
             else{
                 span.classList.add("wrong");
@@ -122,9 +134,16 @@ input.addEventListener("input", function() {
     
     }
     
+    const minutes = (Date.now() - startTime) / 60000;      // exact, no rounding
+    let wpm = (correctCount / 5) / minutes;
+
+    if (minutes < 0.05) {      // less than 3 seconds in: too early to measure
+        wpm = 0;
+    }
+
 
     const accuracy = ((keystrokes - mistakes) / keystrokes) * 100;
-    statsEl.textContent = "Mistakes: " + mistakes + " | Accuracy: " + accuracy.toFixed(1) + "%";
+    statsEl.textContent = "Mistakes: " + mistakes + " | Accuracy: " + accuracy.toFixed(1) + "%" + " | WPM: " + Math.round(wpm);
 
     if (typed === verseText){
     messageEl.textContent = "Congratulations! You typed the verse correctly.";
