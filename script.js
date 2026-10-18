@@ -11,6 +11,7 @@ const verseE1 = document.getElementById("verse");       //document represents wh
 const messageEl = document.getElementById("message");
 const statsEl = document.getElementById("stats");
 const referenceE1 = document.getElementById("reference");
+const verseSelect = document.getElementById("verse-select");
 
 let verseText = "";          //textcontents give text inside div as a string. This strong gets stored in verseText variable.
 
@@ -34,8 +35,24 @@ function loadVerse(index) {
 
     charSpans[0].classList.add("current");
     input.maxLength = verseText.length;
+
+    mistakes = 0;      //reset the mistakes variable to 0 for the new verse.
+    keystrokes = 0;      //reset the keystrokes variable to 0 for the new verse.
+    lastLength = 0;      //reset the lastLength variable to 0 for the new verse.
+    input.value = "";      //clear the input field for the new verse.
+    input.disabled = false;      //enable the input field for the new verse.
+    messageEl.textContent = "";      //clear the message element for the new verse.
+    statsEl.textContent = "Mistakes: 0 | Accuracy: 100%";      //reset the stats element for the new verse.
 }
 
+
+for (let i = 0; i < verses.length; i++) {
+    const option = document.createElement("option");      //create a new option element for the select dropdown.
+    option.value = i;
+    option.textContent = verses[i].ref;      //set the text content of the option to the reference of the verse.
+    verseSelect.appendChild(option);
+
+}
 
 const input = document.getElementById("typing-input");
 
@@ -45,6 +62,12 @@ let mistakes = 0;      //initialize a variable to keep track of the number of mi
 let keystrokes = 0;
 let lastLength = 0;
 
+
+verseSelect.addEventListener("change", function() {
+        loadVerse(Number(verseSelect.value));
+        input.focus();
+
+});
 
 input.addEventListener("input", function() {
     const typed = input.value;
