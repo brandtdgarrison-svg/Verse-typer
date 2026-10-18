@@ -145,9 +145,27 @@ input.addEventListener("input", function() {
     const accuracy = ((keystrokes - mistakes) / keystrokes) * 100;
     statsEl.textContent = "Mistakes: " + mistakes + " | Accuracy: " + accuracy.toFixed(1) + "%" + " | WPM: " + Math.round(wpm);
 
-    if (typed === verseText){
-    messageEl.textContent = "Congratulations! You typed the verse correctly.";
+if (typed === verseText){
+    const seconds = Math.round((Date.now() - startTime) / 1000);
+    const wholeMinutes = Math.floor(seconds / 60);
+
+    const minuteWords = wholeMinutes === 1 ? "minute" : "minutes";
+    const secondWords = (seconds % 60) === 1 ? "second" : "seconds";
+    const mistakeWord = mistakes === 1 ? "mistake" : "mistakes";
+
+    let timeText;
+
+    if (seconds < 60) {
+        timeText = seconds + " seconds";
+    }
+    else{
+        timeText = wholeMinutes + " " + minuteWords + " and " + (seconds % 60) + " " + secondWords;
+    }
+    
+    messageEl.textContent = "Congratulations! You typed the verse in " + timeText + " with " + mistakes + " " + mistakeWord + ".";
+    input.disabled = true;
 }
+
 else {
     messageEl.textContent = " ";
 }
