@@ -12,6 +12,8 @@ const messageEl = document.getElementById("message");
 const statsEl = document.getElementById("stats");
 const referenceE1 = document.getElementById("reference");
 const verseSelect = document.getElementById("verse-select");
+const restartButton = document.getElementById("restart-button");
+const randomButton = document.getElementById("random-button");
 
 let verseText = "";          //textcontents give text inside div as a string. This strong gets stored in verseText variable.
 
@@ -68,6 +70,28 @@ verseSelect.addEventListener("change", function() {
         input.focus();
 
 });
+
+
+restartButton.addEventListener("click", function() {
+    loadVerse(Number(verseSelect.value));
+    input.focus();
+});
+
+
+randomButton.addEventListener("click", function() {
+    const current = Number(verseSelect.value);       // 1. remember where you are
+    let randomIndex = Math.floor(Math.random() * verses.length);   // 2. first pick
+
+    while (randomIndex === current) {                // 3. same one? try again
+        randomIndex = Math.floor(Math.random() * verses.length);   //    no const/let: reuse it
+    }
+
+    verseSelect.value = randomIndex;                 // 4. now load it, once
+    loadVerse(randomIndex);
+    input.focus();
+});
+
+
 
 input.addEventListener("input", function() {
     const typed = input.value;
