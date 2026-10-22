@@ -42,10 +42,11 @@ function loadVerse(index) {
     mistakes = 0;      //reset the mistakes variable to 0 for the new verse.
     keystrokes = 0;      //reset the keystrokes variable to 0 for the new verse.
     lastLength = 0;      //reset the lastLength variable to 0 for the new verse.
+    startTime = null;      //reset the startTime variable to null for the new verse.
     input.value = "";      //clear the input field for the new verse.
     input.disabled = false;      //enable the input field for the new verse.
     messageEl.textContent = "";      //clear the message element for the new verse.
-    statsEl.textContent = "Mistakes: 0 | Accuracy: 100%";      //reset the stats element for the new verse.
+    statsEl.textContent = "Mistakes: 0 | Accuracy: 100% | WPM: 0";      //reset the stats element for the new verse.
 }
 
 
@@ -70,6 +71,10 @@ verseSelect.addEventListener("change", function() {
         loadVerse(Number(verseSelect.value));
         input.focus();
 
+});
+
+verseE1.addEventListener("click", function() {
+    input.focus();
 });
 
 
