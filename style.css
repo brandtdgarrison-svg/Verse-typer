@@ -2,7 +2,7 @@
 
 :root{
     --bg: #1e1e2e;
-    __surface: #2a2a3d;
+    --surface: #2a2a3d;
     --text: #e4e4f0;
     --muted: #8b8ba7;
     --accent: #f5c542;
@@ -71,7 +71,7 @@ button:hover {
 
 .char { color: var(--muted); }
 .correct { color: var(--correct); }
-.wrong { color: var(--wrong); background-color: var(--wrong-bg); };
+.wrong { color: var(--wrong); background-color: var(--wrong-bg); }
 
 .current {
     box-shadow: -3px 0 0 var(--accent);
