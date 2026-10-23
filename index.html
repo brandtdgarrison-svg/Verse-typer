@@ -6,20 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verse-Typer</title>
 </head>
+
 <body>
+
 <h1>Verse-Typer</h1>
-<select id="verse-select"></select>
+<p class="tagline">Pick a verse, click it, and type it from start to finish.</p>
+
+<div class="controls">
+    <select id="verse-select"></select>
+    <button id="restart-button">Restart</button>
+    <button id ="random-button">Random</button>
+</div>
+
 <p id="reference"></p>
 <div id="verse"></div>
 
-<button id="restart-button">Restart</button>
-<button id ="random-button">Random</button>
-
-
-<textarea id="typing-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-
 <p id="message"></p>
 <p id="stats"></p>
+
+<textarea id="typing-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 
 
 <script src="script.js"></script>
