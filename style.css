@@ -9,6 +9,7 @@
     --correct: #4ade80;
     --wrong: #f87171;
     --wrong-bg: #4a1d1d;
+    --stats: #7dd3fc;     
 }
 
 body {
@@ -83,8 +84,9 @@ button:hover {
 }
 
 #stats {
-    color: var(--muted);
+    color: var(--stats);
     font-family: ui-monospace, Menlo, monospace;
+    font-size: 17px;
     margin-top: 16px;
 }
 
