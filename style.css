@@ -71,6 +71,12 @@ button:hover {
 }
 
 .char { color: var(--muted); }
+
+.hidden {
+    color: transparent;
+    border-bottom: 2px solid var(--muted);
+}
+
 .correct { color: var(--correct); }
 .wrong { color: var(--wrong); background-color: var(--wrong-bg); }
 

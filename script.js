@@ -20,11 +20,14 @@ const referenceE1 = document.getElementById("reference");
 const verseSelect = document.getElementById("verse-select");
 const restartButton = document.getElementById("restart-button");
 const randomButton = document.getElementById("random-button");
+const memoryToggle = document.getElementById("memory-toggle");
 
 let verseText = "";          //textcontents give text inside div as a string. This strong gets stored in verseText variable.
 
 let charSpans = [];
 let startTime = null;
+
+let wordIndex = 0;
 
 function loadVerse(index) {
     verseText = verses[index].text;        //set the verseText variable to the text of the selected verse object.
@@ -40,6 +43,14 @@ function loadVerse(index) {
         verseE1.appendChild(span);      //appendChild adds the span element as a child of the verseE1 element. This means that each letter will be wrapped in a span and added to the div with id = verse.
         span.className = "char";    //set class name to span and scans all char
         charSpans.push(span);      //add the span element to the charSpans array. This array will be used later to access each character span for animation or other purposes.
+    
+        if (letter === " "){
+            wordIndex++;
+        }
+        else if (memoryToggle.checked && wordIndex % 3 === 2){
+            span.classList.add("hidden");
+        }
+    
     }
 
     charSpans[0].classList.add("current");
@@ -89,6 +100,10 @@ restartButton.addEventListener("click", function() {
     input.focus();
 });
 
+memoryToggle.addEventListener("change", function(){
+    loadVerse(Number(verseSelect.value));
+    input.focus();
+});
 
 randomButton.addEventListener("click", function() {
     const current = Number(verseSelect.value);       // 1. remember where you are
@@ -126,7 +141,6 @@ input.addEventListener("input", function() {
     let correctCount = 0;
 
     for (let i = 0; i < charSpans.length; i++){
-
 
         const span = charSpans[i];
         span.classList.remove("correct", "wrong", "current");      //remove correct and incorrect classes from the span element. This is done to reset the styling of the span before checking the typed input.
