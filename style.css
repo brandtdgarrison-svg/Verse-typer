@@ -54,6 +54,12 @@ button:hover {
     background-color: var(--accent);
 }
 
+button.active {
+    background-color: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+}
+
 #reference {
     font-size: 20px;
     font-weight: bold;
