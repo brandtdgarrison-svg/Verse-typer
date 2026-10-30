@@ -20,14 +20,14 @@ const referenceE1 = document.getElementById("reference");
 const verseSelect = document.getElementById("verse-select");
 const restartButton = document.getElementById("restart-button");
 const randomButton = document.getElementById("random-button");
-const memoryToggle = document.getElementById("memory-toggle");
+const difficultySelect = document.getElementById("difficulty");
 
 let verseText = "";          //textcontents give text inside div as a string. This strong gets stored in verseText variable.
 
 let charSpans = [];
 let startTime = null;
 
-let wordIndex = 0;
+
 
 function loadVerse(index) {
     verseText = verses[index].text;        //set the verseText variable to the text of the selected verse object.
@@ -36,6 +36,9 @@ function loadVerse(index) {
     verseE1.innerHTML = "";        //clear the inner HTML of the verse element.
 
     charSpans = [];        //clear the charSpans array to prepare for the new verse.
+    
+    let wordIndex = 0;
+    const hideEvery = Number(difficultySelect.value);
 
     for (const letter of verseText) {        //for of loop iterates over each character in the string verseText. Each character is stored in letter variable.
         const span = document.createElement("span");      //createElement creates a new span element. This span will be used to wrap each letter of the verse.
@@ -47,7 +50,7 @@ function loadVerse(index) {
         if (letter === " "){
             wordIndex++;
         }
-        else if (memoryToggle.checked && wordIndex % 3 === 2){
+        else if (hideEvery > 0 && wordIndex % hideEvery === hideEvery - 1){
             span.classList.add("hidden");
         }
     
@@ -100,7 +103,7 @@ restartButton.addEventListener("click", function() {
     input.focus();
 });
 
-memoryToggle.addEventListener("change", function(){
+difficultySelect.addEventListener("change", function(){
     loadVerse(Number(verseSelect.value));
     input.focus();
 });
