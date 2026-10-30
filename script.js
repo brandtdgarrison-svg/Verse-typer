@@ -268,4 +268,3 @@ loadVerse(0);
 input.focus();
 
 
-
