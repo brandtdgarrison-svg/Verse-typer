@@ -74,6 +74,17 @@ function loadVerse(index) {
 }
 
 
+function saveLevels() {
+    const levels = {};
+    
+    for (const verse of verses){
+        levels[verse.ref] = verse.level;
+    }
+    localStorage.setItem("verseLevels", JSON.stringify(levels));
+}
+
+
+
 for (let i = 0; i < verses.length; i++) {
     const option = document.createElement("option");      //create a new option element for the select dropdown.
     option.value = i;
@@ -227,6 +238,7 @@ if (typed === verseText){
 
         newLevel = Math.min(10, Math.max(1, newLevel));
         verses[current].level = newLevel;
+        saveLevels();
         levelEl.textContent = "Level " + newLevel + " / 10";
         messageEl.textContent += " Level " + oldLevel + " → " + newLevel + ".";
 
@@ -238,6 +250,18 @@ else {
     messageEl.textContent = " ";
 }
 });
+
+const saved = localStorage.getItem("verseLevels");
+
+if (saved != null){
+    const levels = JSON.parse(saved);
+
+    for (const verse of verses) {
+        if (levels[verse.ref] !== undefined) {
+            verse.level = levels[verse.ref];
+        }
+    }
+}
 
 loadVerse(0);
 
