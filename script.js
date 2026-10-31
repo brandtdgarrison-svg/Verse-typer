@@ -45,25 +45,26 @@ let memoryOn = false;
 
 
 function loadVerse(index) {
-    verseText = verses[index].text;        //set the verseText variable to the text of the selected verse object.
+    verseText = verses[index].text;        
     referenceEl.textContent = verses[index].ref;      
     deleteButton.hidden = index < builtInCount;
     levelEl.textContent = memoryOn ? "Level " + verses[index].level + " / 10": "";
 
-    verseEl.innerHTML = "";        //clear the inner HTML of the verse element.
+    verseEl.innerHTML = "";        
 
-    charSpans = [];        //clear the charSpans array to prepare for the new verse.
+    charSpans = [];        
     
 
     const hideChance = memoryOn ? (verses[index].level - 1) / 9: 0;
     let hideWord = Math.random() < hideChance;
 
-    for (const letter of verseText) {        //for of loop iterates over each character in the string verseText. Each character is stored in letter variable.
-        const span = document.createElement("span");      //createElement creates a new span element. This span will be used to wrap each letter of the verse.
-        span.textContent = letter;      //set the text content of the span to the current letter.
+    
+    for (const letter of verseText) {        
+        const span = document.createElement("span");        
+        span.textContent = letter;      
         verseEl.appendChild(span);     
-        span.className = "char";    //set class name to span and scans all char
-        charSpans.push(span);      //add the span element to the charSpans array. This array will be used later to access each character span for animation or other purposes.
+        span.className = "char";    
+        charSpans.push(span);     
     
         if (letter === " "){
             hideWord = Math.random() < hideChance;
@@ -77,14 +78,14 @@ function loadVerse(index) {
     charSpans[0].classList.add("current");
     input.maxLength = verseText.length;
 
-    mistakes = 0;      //reset the mistakes variable to 0 for the new verse.
-    keystrokes = 0;      //reset the keystrokes variable to 0 for the new verse.
-    lastLength = 0;      //reset the lastLength variable to 0 for the new verse.
-    startTime = null;      //reset the startTime variable to null for the new verse.
-    input.value = "";      //clear the input field for the new verse.
-    input.disabled = false;      //enable the input field for the new verse.
-    messageEl.textContent = "";      //clear the message element for the new verse.
-    statsEl.textContent = "Mistakes: 0 | Accuracy: 100% | WPM: 0";      //reset the stats element for the new verse.
+    mistakes = 0;      
+    keystrokes = 0;      
+    lastLength = 0;      
+    startTime = null;      
+    input.value = "";      
+    input.disabled = false;      
+    messageEl.textContent = "";      
+    statsEl.textContent = "Mistakes: 0 | Accuracy: 100% | WPM: 0";     
 }
 
 
@@ -109,9 +110,9 @@ function buildDropdown(){
     verseSelect.innerHTML = "";
 
     for (let i = 0; i < verses.length; i++) {
-        const option = document.createElement("option");      //create a new option element for the select dropdown.
+        const option = document.createElement("option");      
         option.value = i;
-        option.textContent = verses[i].ref;      //set the text content of the option to the reference of the verse.
+        option.textContent = verses[i].ref;     
         verseSelect.appendChild(option);
     }
 }
@@ -122,7 +123,7 @@ const input = document.getElementById("typing-input");
 
 
 
-let mistakes = 0;      //initialize a variable to keep track of the number of mistakes made by the user while typing the verse.
+let mistakes = 0;      
 let keystrokes = 0;
 let lastLength = 0;
 
@@ -145,14 +146,14 @@ restartButton.addEventListener("click", function() {
 
 
 randomButton.addEventListener("click", function() {
-    const current = Number(verseSelect.value);       // 1. remember where you are
-    let randomIndex = Math.floor(Math.random() * verses.length);   // 2. first pick
+    const current = Number(verseSelect.value);       
+    let randomIndex = Math.floor(Math.random() * verses.length);   
 
-    while (randomIndex === current) {                // 3. same one? try again
-        randomIndex = Math.floor(Math.random() * verses.length);   //    no const/let: reuse it
+    while (randomIndex === current) {                
+        randomIndex = Math.floor(Math.random() * verses.length);   
     }
 
-    verseSelect.value = randomIndex;                 // 4. now load it, once
+    verseSelect.value = randomIndex;                
     loadVerse(randomIndex);
     input.focus();
 });
@@ -274,7 +275,7 @@ input.addEventListener("input", function() {
     for (let i = 0; i < charSpans.length; i++){
 
         const span = charSpans[i];
-        span.classList.remove("correct", "wrong", "current");      //remove correct and incorrect classes from the span element. This is done to reset the styling of the span before checking the typed input.
+        span.classList.remove("correct", "wrong", "current");    
         if (i < typed.length){
             if (typed[i] === verseText[i]){
                 span.classList.add("correct");
@@ -290,10 +291,10 @@ input.addEventListener("input", function() {
     
     }
     
-    const minutes = (Date.now() - startTime) / 60000;      // exact, no rounding
+    const minutes = (Date.now() - startTime) / 60000;      
     let wpm = (correctCount / 5) / minutes;
 
-    if (minutes < 0.05) {      // less than 3 seconds in: too early to measure
+    if (minutes < 0.05) {      
         wpm = 0;
     }
 
