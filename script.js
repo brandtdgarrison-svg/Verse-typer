@@ -327,7 +327,7 @@ if (typed === verseText){
         const oldLevel = verses[current].level;
         let newLevel = oldLevel;
 
-        if (accuracy == 100 && wpm >= 50){
+        if (accuracy === 100 && wpm >= 50){
             newLevel = oldLevel + 3;
         }
         else if (accuracy >= 98 && wpm >= 40){
@@ -362,7 +362,7 @@ else {
 
 const saved = localStorage.getItem("verseLevels");
 
-if (saved != null){
+if (saved !== null){
     const levels = JSON.parse(saved);
 
     for (const verse of verses) {
