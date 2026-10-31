@@ -121,7 +121,6 @@ function updateDropdown() {
 }
 
 
-
 function buildDropdown() {
     verseSelect.innerHTML = "";
 
@@ -276,6 +275,40 @@ exportButton.addEventListener("click", function(){
 });
 
 
+importButton.addEventListener("click", function () {
+    importFile.click();
+});
+
+
+importFile.addEventListener("change", async function () {
+    const file = importFile.files[0];
+    if (!file) {
+        return;
+    }
+
+    const text = await file.text();
+    let data;
+
+    try {
+        data = JSON.parse(text);
+        if (!data.customVerses || !data.levels) {
+            throw new Error("Not a backup file");
+        }
+    }
+    catch (error) {
+        messageEl.textContent = "That file isn't a Verse Typer backup.";
+        importFile.value = "";
+        return;
+    }
+
+    if (confirm("Importing replaces your current progress. Continue?")) {
+        localStorage.setItem("customVerses", JSON.stringify(data.customVerses));
+        localStorage.setItem("verseLevels", JSON.stringify(data.levels));
+        location.reload();
+    }
+
+    importFile.value = "";
+});
 
 
 input.addEventListener("input", function () {
