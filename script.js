@@ -1,5 +1,3 @@
-console.log("Hello from script.js!");
-
 const verses = [
     {ref: "1 Corinthians 10:13", text: "No temptation has overtaken you that is not common to man. God is faithful and he will not let you be tempted beyond your ability, but with the temptation he will also provide the way of escape, that you may be able to endure it.", level: 1},
     {ref: "1 John 2:4-6", text: "Whoever says 'I know him' but does not keep his commandments is a liar, and the truth is not in him, but whoever keeps his word, in him truly the love of God is perfected. By this we may know that we are in him: whoever says he abides in him ought to walk in the same way in which he walked.", level: 1},
@@ -38,7 +36,7 @@ const newRef = document.getElementById("new-ref");
 const newText = document.getElementById("new-text");
 const deleteButton = document.getElementById("delete-button");
 
-let verseText = "";          //textcontents give text inside div as a string. This strong gets stored in verseText variable.
+let verseText = "";
 
 let charSpans = [];
 let startTime = null;
@@ -269,7 +267,6 @@ input.addEventListener("input", function() {
         }
     }
     lastLength = typed.length;
-    console.log("Typed:", typed);
 
 
     let correctCount = 0;
