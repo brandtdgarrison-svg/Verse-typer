@@ -216,10 +216,7 @@ addForm.addEventListener("submit", function (event) {
     customVerses.push({ ref: ref, text: text });
     localStorage.setItem("customVerses", JSON.stringify(customVerses));
 
-    const option = document.createElement("option");
-    option.value = verses.length - 1;
-    option.textContent = ref;
-    verseSelect.appendChild(option);
+    buildDropdown();
     updateDropdown();
 
     verseSelect.value = verses.length - 1;
