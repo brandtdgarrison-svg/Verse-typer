@@ -20,7 +20,7 @@ for (const verse of customVerses) {
 }
 
 
-const verseE1 = document.getElementById("verse");       //document represents whole web page. get element by id is a method that searches the document for element with id = verse. It returns the first element with that id. If no element is found, it returns null.
+const verseE1 = document.getElementById("verse");       
 const messageEl = document.getElementById("message");
 const statsEl = document.getElementById("stats");
 const referenceE1 = document.getElementById("reference");
@@ -194,6 +194,13 @@ addForm.addEventListener("submit", function(event){
 
     if (ref === "" || text === ""){
         return;
+    }
+
+    for (const verse of verses) {
+        if (verse.ref.toLowerCase() === ref.toLowerCase()){
+            messageEl.textContent = "That verse is already in your list";
+            return;
+        }
     }
 
     text = text.replace(/\s+/g, " ").replace(/[‘’]/g, "'").replace(/[“”]/g, '"');
