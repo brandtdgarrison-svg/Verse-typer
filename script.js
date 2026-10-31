@@ -46,6 +46,9 @@ let verseText = "";
 let charSpans = [];
 let startTime = null;
 let memoryOn = false;
+let mistakes = 0;
+let keystrokes = 0;
+let lastLength = 0;
 
 
 // ============== Functions ===================
@@ -122,11 +125,6 @@ function buildDropdown() {
     }
 }
 
-
-
-let mistakes = 0;
-let keystrokes = 0;
-let lastLength = 0;
 
 
 //============= Event Listeners ====================
