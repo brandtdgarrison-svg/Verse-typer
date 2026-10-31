@@ -22,6 +22,7 @@ const restartButton = document.getElementById("restart-button");
 const randomButton = document.getElementById("random-button");
 const levelEl = document.getElementById("level");
 const memoryButton = document.getElementById("memory-button");
+const resetButton = document.getElementById("reset-button");
 
 let verseText = "";          //textcontents give text inside div as a string. This strong gets stored in verseText variable.
 
@@ -148,6 +149,17 @@ memoryButton.addEventListener("click", function(){
 
 });
 
+resetButton.addEventListener("click", function(){
+    const current = Number(verseSelect.value);
+
+    if (confirm("Reset " + verses[current].ref + " back to level 1?")){
+        verses[current].level = 1;
+        saveLevels();
+        loadVerse(current);
+        input.focus();
+    }
+});
+
 
 input.addEventListener("input", function() {
     const typed = input.value;
@@ -225,10 +237,13 @@ if (typed === verseText){
         const oldLevel = verses[current].level;
         let newLevel = oldLevel;
 
-        if (accuracy >= 98 && wpm >= 40){
+        if (accuracy == 100 && wpm >= 50){
+            newLevel = oldLevel + 3;
+        }
+        else if (accuracy >= 98 && wpm >= 40){
             newLevel = oldLevel + 2;
         }
-        else if (accuracy >= 95){
+        else if (accuracy >= 93){
             newLevel = oldLevel + 1;
         }
         else if (accuracy < 85){
@@ -243,6 +258,9 @@ if (typed === verseText){
         messageEl.textContent += " Level " + oldLevel + " → " + newLevel + ".";
 
 
+    }
+    else{
+        messageEl.textContent += " Turn on Memory mode to level up.";
     }
 }
 
