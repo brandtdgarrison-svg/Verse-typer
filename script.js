@@ -35,7 +35,7 @@ let memoryOn = false;
 function loadVerse(index) {
     verseText = verses[index].text;        //set the verseText variable to the text of the selected verse object.
     referenceE1.textContent = verses[index].ref;        //set the text content of the reference element to the reference of the selected verse object.
-    levelEl.textContent = "Level " + verses[index].level + " / 10";
+    levelEl.textContent = memoryOn ? "Level " + verses[index].level + " / 10": "";
 
     verseE1.innerHTML = "";        //clear the inner HTML of the verse element.
 
@@ -82,6 +82,12 @@ function saveLevels() {
         levels[verse.ref] = verse.level;
     }
     localStorage.setItem("verseLevels", JSON.stringify(levels));
+}
+
+function updateDropdown() {
+    for (let i = 0; i < verses.length; i++){
+        verseSelect.options[i].textContent = memoryOn ? verses[i].ref + " - Lv " + verses[i].level: verses[i].ref;
+    }
 }
 
 
@@ -144,6 +150,7 @@ memoryButton.addEventListener("click", function(){
     }
     
     memoryButton.classList.toggle("active");
+    updateDropdown();
     loadVerse(Number(verseSelect.value));
     input.focus();
 
@@ -155,6 +162,7 @@ resetButton.addEventListener("click", function(){
     if (confirm("Reset " + verses[current].ref + " back to level 1?")){
         verses[current].level = 1;
         saveLevels();
+        updateDropdown();
         loadVerse(current);
         input.focus();
     }
@@ -254,6 +262,7 @@ if (typed === verseText){
         newLevel = Math.min(10, Math.max(1, newLevel));
         verses[current].level = newLevel;
         saveLevels();
+        updateDropdown();
         levelEl.textContent = "Level " + newLevel + " / 10";
         messageEl.textContent += " Level " + oldLevel + " → " + newLevel + ".";
 
@@ -281,8 +290,8 @@ if (saved != null){
     }
 }
 
+updateDropdown();
 loadVerse(0);
-
 input.focus();
 
 
