@@ -12,6 +12,13 @@ const verses = [
     {ref: "2 Peter 1:5-8", text: "For this very reason, make every effort to supplement your faith with virtue, and virtue with knowledge, and knowledge with self-control, and self-control with steadfastness, and steadfastness with godliness, and godliness with brotherly affection, and brotherly affection with love. For if these qualities are yours and are increasing, they keep you from being ineffective or unfruitful in the knowledge of our Lord Jesus Christ.", level: 1}
 ];
 
+const savedCustom = localStorage.getItem("customVerses");
+let customVerses = savedCustom != null ? JSON.parse(savedCustom) : [];
+
+for (const verse of customVerses) {
+    verses.push({ref: verse.ref, text: verse.text, level: 1});
+}
+
 
 const verseE1 = document.getElementById("verse");       //document represents whole web page. get element by id is a method that searches the document for element with id = verse. It returns the first element with that id. If no element is found, it returns null.
 const messageEl = document.getElementById("message");
@@ -23,6 +30,10 @@ const randomButton = document.getElementById("random-button");
 const levelEl = document.getElementById("level");
 const memoryButton = document.getElementById("memory-button");
 const resetButton = document.getElementById("reset-button");
+const addToggle = document.getElementById("add-toggle");
+const addForm = document.getElementById("add-form");
+const newRef = document.getElementById("new-ref");
+const newText = document.getElementById("new-text");
 
 let verseText = "";          //textcontents give text inside div as a string. This strong gets stored in verseText variable.
 
@@ -166,6 +177,43 @@ resetButton.addEventListener("click", function(){
         loadVerse(current);
         input.focus();
     }
+});
+
+addToggle.addEventListener("click", function(){
+    addForm.hidden = !addForm.hidden;
+    if (!addForm.hidden) {
+        newRef.focus();
+    }
+});
+
+addForm.addEventListener("submit", function(event){
+    event.preventDefault();
+
+    const ref = newRef.value.trim();
+    let text = newText.value.trim();
+
+    if (ref === "" || text === ""){
+        return;
+    }
+
+    text = text.replace(/\s+/g, " ").replace(/[‘’]/g, "'").replace(/[“”]/g, '"');
+
+    verses.push({ ref: ref, text: text, level: 1});
+    customVerses.push({ ref: ref, text: text});
+    localStorage.setItem("customVerses", JSON.stringify(customVerses));
+
+    const option = document.createElement("option");
+    option.value = verses.length - 1;
+    option.textContent = ref;
+    verseSelect.appendChild(option);
+    updateDropdown();
+
+    verseSelect.value = verses.length - 1;
+    loadVerse(verses.length - 1);
+
+    addForm.reset();
+    addForm.hidden = true;
+    input.focus();
 });
 
 

@@ -116,3 +116,26 @@ button.active {
     pointer-events: none;
 }
 
+#add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+
+#add-form input, #add-form textarea {
+    font: inherit;
+    color: var(--text);
+    background-color: var(--surface);
+    border: 1px solid #3d3d55;
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+#add-form button {
+    align-self: flex-start;
+}
+
+#add-form[hidden] {
+    display: none;
+}

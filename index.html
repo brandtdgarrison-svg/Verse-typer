@@ -18,7 +18,14 @@
     <button id ="random-button">Random</button>
     <button id="memory-button">Memory: Off</button>
     <button id="reset-button">Reset this verse</button>
+    <button id="add-toggle">+ Add verse</button>
 </div>
+
+<form id="add-form" hidden>
+    <input id="new-ref" type="text" placeholder="Reference (e.g. Jonah 1:1-2)">
+    <textarea id="new-text" rows="3" placeholder="Paste the verse text here"></textarea>
+    <button type="submit">Save verse</button>
+</form>
 
 
 <p id="reference"></p>
