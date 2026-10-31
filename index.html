@@ -19,7 +19,7 @@
     <button id="memory-button">Memory: Off</button>
     <button id="reset-button">Reset this verse</button>
     <button id="add-toggle">+ Add verse</button>
-    <button id="delete-button">delete verse</button>
+    <button id="delete-button">Delete verse</button>
 </div>
 
 <form id="add-form" hidden>
@@ -35,6 +35,12 @@
 
 <p id="message"></p>
 <p id="stats"></p>
+
+<div class="backup">
+    <button id="export-button">Export progress</button>
+    <button id="import-button">Import progress</button>
+    <input type="file" id="input-file" accept=".json" hidden>
+</div>
 
 <textarea id="typing-input" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 

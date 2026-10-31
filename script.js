@@ -38,6 +38,9 @@ const newRef = document.getElementById("new-ref");
 const newText = document.getElementById("new-text");
 const deleteButton = document.getElementById("delete-button");
 const input = document.getElementById("typing-input");
+const exportButton = document.getElementById("export-button");
+const importButton = document.getElementById("import-button");
+const importFile = document.getElementById("import-file");
 
 
 
@@ -97,14 +100,19 @@ function loadVerse(index) {
 }
 
 
-function saveLevels() {
+function getLevels() {
     const levels = {};
 
     for (const verse of verses) {
         levels[verse.ref] = verse.level;
     }
-    localStorage.setItem("verseLevels", JSON.stringify(levels));
+    return levels;
 }
+
+function saveLevels() {
+    localStorage.setItem("verseLevels", JSON.stringify(getLevels()));
+}
+
 
 function updateDropdown() {
     for (let i = 0; i < verses.length; i++) {
@@ -247,6 +255,27 @@ deleteButton.addEventListener("click", function () {
         input.focus();
     }
 });
+
+exportButton.addEventListener("click", function(){
+    const data = {
+        customVerses: customVerses,
+        levels: getLevels()
+    };
+
+    const text = JSON.stringify(data, null, 2);
+    const file = new Blob([text], {type: "application/json"});
+
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(file);
+    link.download = "verse-typer-progress.json";
+    link.click();
+
+    setTimeout(function () {
+        URL.revokeObjectURL(link.href);
+    }, 1000);
+});
+
+
 
 
 input.addEventListener("input", function () {

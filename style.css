@@ -144,3 +144,9 @@ button.active {
     border-color: var(--wrong);
     color: var(--wrong);
 }
+
+.backup {
+    display: flex;
+    gap: 10px;
+    margin-top: 32px;
+}
