@@ -20,10 +20,10 @@ for (const verse of customVerses) {
 }
 
 
-const verseE1 = document.getElementById("verse");       
+const verseEl = document.getElementById("verse");       
 const messageEl = document.getElementById("message");
 const statsEl = document.getElementById("stats");
-const referenceE1 = document.getElementById("reference");
+const referenceEl = document.getElementById("reference");
 const verseSelect = document.getElementById("verse-select");
 const restartButton = document.getElementById("restart-button");
 const randomButton = document.getElementById("random-button");
@@ -46,11 +46,11 @@ let memoryOn = false;
 
 function loadVerse(index) {
     verseText = verses[index].text;        //set the verseText variable to the text of the selected verse object.
-    referenceE1.textContent = verses[index].ref;      
+    referenceEl.textContent = verses[index].ref;      
     deleteButton.hidden = index < builtInCount;
     levelEl.textContent = memoryOn ? "Level " + verses[index].level + " / 10": "";
 
-    verseE1.innerHTML = "";        //clear the inner HTML of the verse element.
+    verseEl.innerHTML = "";        //clear the inner HTML of the verse element.
 
     charSpans = [];        //clear the charSpans array to prepare for the new verse.
     
@@ -61,7 +61,7 @@ function loadVerse(index) {
     for (const letter of verseText) {        //for of loop iterates over each character in the string verseText. Each character is stored in letter variable.
         const span = document.createElement("span");      //createElement creates a new span element. This span will be used to wrap each letter of the verse.
         span.textContent = letter;      //set the text content of the span to the current letter.
-        verseE1.appendChild(span);      //appendChild adds the span element as a child of the verseE1 element. This means that each letter will be wrapped in a span and added to the div with id = verse.
+        verseEl.appendChild(span);     
         span.className = "char";    //set class name to span and scans all char
         charSpans.push(span);      //add the span element to the charSpans array. This array will be used later to access each character span for animation or other purposes.
     
@@ -133,7 +133,7 @@ verseSelect.addEventListener("change", function() {
 
 });
 
-verseE1.addEventListener("click", function() {
+verseEl.addEventListener("click", function() {
     input.focus();
 });
 
