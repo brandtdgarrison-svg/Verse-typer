@@ -139,3 +139,8 @@ button.active {
 #add-form[hidden] {
     display: none;
 }
+
+#delete-button:hover {
+    border-color: var(--wrong);
+    color: var(--wrong);
+}

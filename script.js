@@ -12,6 +12,8 @@ const verses = [
     {ref: "2 Peter 1:5-8", text: "For this very reason, make every effort to supplement your faith with virtue, and virtue with knowledge, and knowledge with self-control, and self-control with steadfastness, and steadfastness with godliness, and godliness with brotherly affection, and brotherly affection with love. For if these qualities are yours and are increasing, they keep you from being ineffective or unfruitful in the knowledge of our Lord Jesus Christ.", level: 1}
 ];
 
+const builtInCount = verses.length;
+
 const savedCustom = localStorage.getItem("customVerses");
 let customVerses = savedCustom != null ? JSON.parse(savedCustom) : [];
 
@@ -34,6 +36,7 @@ const addToggle = document.getElementById("add-toggle");
 const addForm = document.getElementById("add-form");
 const newRef = document.getElementById("new-ref");
 const newText = document.getElementById("new-text");
+const deleteButton = document.getElementById("delete-button");
 
 let verseText = "";          //textcontents give text inside div as a string. This strong gets stored in verseText variable.
 
@@ -45,7 +48,8 @@ let memoryOn = false;
 
 function loadVerse(index) {
     verseText = verses[index].text;        //set the verseText variable to the text of the selected verse object.
-    referenceE1.textContent = verses[index].ref;        //set the text content of the reference element to the reference of the selected verse object.
+    referenceE1.textContent = verses[index].ref;      
+    deleteButton.hidden = index < builtInCount;
     levelEl.textContent = memoryOn ? "Level " + verses[index].level + " / 10": "";
 
     verseE1.innerHTML = "";        //clear the inner HTML of the verse element.
@@ -103,13 +107,18 @@ function updateDropdown() {
 
 
 
-for (let i = 0; i < verses.length; i++) {
-    const option = document.createElement("option");      //create a new option element for the select dropdown.
-    option.value = i;
-    option.textContent = verses[i].ref;      //set the text content of the option to the reference of the verse.
-    verseSelect.appendChild(option);
+function buildDropdown(){
+    verseSelect.innerHTML = "";
 
+    for (let i = 0; i < verses.length; i++) {
+        const option = document.createElement("option");      //create a new option element for the select dropdown.
+        option.value = i;
+        option.textContent = verses[i].ref;      //set the text content of the option to the reference of the verse.
+        verseSelect.appendChild(option);
+    }
 }
+
+buildDropdown();
 
 const input = document.getElementById("typing-input");
 
@@ -221,6 +230,27 @@ addForm.addEventListener("submit", function(event){
     addForm.reset();
     addForm.hidden = true;
     input.focus();
+});
+
+
+deleteButton.addEventListener("click", function(){
+    const current = Number(verseSelect.value);
+
+    if (current < builtInCount){
+        return;
+    }
+
+    if (confirm("Delete " + verses[current].ref + "?")){
+        verses.splice(current, 1);
+        customVerses.splice(current - builtInCount, 1);
+        localStorage.setItem("customVerses", JSON.stringify(customVerses));
+        saveLevels();
+        buildDropdown();
+        updateDropdown();
+        verseSelect.value = 0;
+        loadVerse(0);
+        input.focus();
+    }
 });
 
 
