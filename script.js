@@ -16,6 +16,9 @@ const builtInCount = verses.length;
 const savedCustom = localStorage.getItem("customVerses");
 let customVerses = savedCustom !== null ? JSON.parse(savedCustom) : [];
 
+const savedBests = localStorage.getItem("verseLevels");
+let bests = savedBests !== null ? JSON.parse(savedBests) : {};
+
 for (const verse of customVerses) {
     verses.push({ ref: verse.ref, text: verse.text, level: 1 });
 }
@@ -41,6 +44,7 @@ const input = document.getElementById("typing-input");
 const exportButton = document.getElementById("export-button");
 const importButton = document.getElementById("import-button");
 const importFile = document.getElementById("import-file");
+const bestEl = document.getElementById("best");
 
 
 
@@ -60,6 +64,18 @@ function loadVerse(index) {
     referenceEl.textContent = verses[index].ref;
     deleteButton.hidden = index < builtInCount;
     levelEl.textContent = memoryOn ? "Level " + verses[index].level + " / 10" : "";
+
+    const best = bests[verses[index].ref];
+
+    if (memoryOn) {
+        bestEl.textContent = "";
+    }
+    else if (best) {
+        bestEl.textContent = "Best: " + best.wpm + " WPM, " + best.accuracy.toFixed(1) + "% accuracy";
+    }
+    else{
+        bestEl.textContent = "No personal best yet";
+    }
 
     verseEl.innerHTML = "";
 
@@ -410,6 +426,43 @@ input.addEventListener("input", function () {
 
         }
         else {
+            const ref = verses[Number(verseSelect.value)].ref;
+            const roundedWPM = Math.round(wpm);
+            let newWPMBest = false;
+            let newAccuracyBest = false;
+
+            if (!bests[ref]) {
+                bests[ref] = { wpm: roundedWPM, accuracy: accuracy };
+                newWPMBest = true;
+                newAccuracyBest = true;
+            }
+            else{
+                if (roundedWPM > bests[ref].wpm){
+                    bests[ref].wpm = roundedWPM;
+                    newWPMBest = true;
+                }
+                if (accuracy > bests[ref].accuracy){
+                    bests[ref].accuracy = accuracy;
+                    newAccuracyBest = true;
+                }
+            }
+
+            if (newWPMBest || newAccuracyBest){
+                localStorage.setItem("verseBests", JSON.stringify(bests));
+                
+                if (newWPMBest && newAccuracyBest){
+                    messageEl.textContent += " New personal best for WPM and accuracy!";
+                }
+                else if (newWPMBest){
+                    messageEl.textContent += " New personal best for WPM!";
+                }
+                else if (newAccuracyBest){
+                    messageEl.textContent += " New personal best for accuracy!";
+                }
+
+                bestEl.textContent = "Best: " + bests[ref].wpm + " WPM, " + bests[ref].accuracy.toFixed(1) + "% accuracy";
+            }
+            
             messageEl.textContent += " Turn on Memory mode to level up.";
         }
     }
