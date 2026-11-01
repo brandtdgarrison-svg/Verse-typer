@@ -16,7 +16,7 @@ const builtInCount = verses.length;
 const savedCustom = localStorage.getItem("customVerses");
 let customVerses = savedCustom !== null ? JSON.parse(savedCustom) : [];
 
-const savedBests = localStorage.getItem("verseLevels");
+const savedBests = localStorage.getItem("verseBests");
 let bests = savedBests !== null ? JSON.parse(savedBests) : {};
 
 for (const verse of customVerses) {
