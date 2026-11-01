@@ -274,7 +274,8 @@ deleteButton.addEventListener("click", function () {
 exportButton.addEventListener("click", function(){
     const data = {
         customVerses: customVerses,
-        levels: getLevels()
+        levels: getLevels(),
+        bests: bests
     };
 
     const text = JSON.stringify(data, null, 2);
@@ -320,6 +321,11 @@ importFile.addEventListener("change", async function () {
     if (confirm("Importing replaces your current progress. Continue?")) {
         localStorage.setItem("customVerses", JSON.stringify(data.customVerses));
         localStorage.setItem("verseLevels", JSON.stringify(data.levels));
+
+        if (data.bests) {
+            localStorage.setItem("verseBests", JSON.stringify(data.bests));
+        }
+        
         location.reload();
     }
 
