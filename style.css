@@ -9,7 +9,8 @@
     --correct: #4ade80;
     --wrong: #f87171;
     --wrong-bg: #4a1d1d;
-    --stats: #7dd3fc;     
+    --stats: #7dd3fc;    
+    --review: #f239ff;
 }
 
 body {
@@ -58,6 +59,18 @@ button.active {
     background-color: var(--accent);
     color: var(--bg);
     border-color: var(--accent);
+}
+
+#review-toggle.active {
+    background-color: var(--review);
+    color: var(--bg);
+    border-color: var(--review);
+}
+
+#review-toggle:hover {
+    background-color: var(--review);
+    border-color: var(--review);
+    color: var(--bg);
 }
 
 #reference {
@@ -138,6 +151,18 @@ button.active {
 
 #add-form[hidden] {
     display: none;
+}
+
+#due {
+    color: var(--review);
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+#due-legend {
+    color: var(--stats);
+    font-size: 14px;
+    margin-top: 0;
 }
 
 #delete-button:hover {

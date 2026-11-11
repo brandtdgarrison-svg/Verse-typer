@@ -52,6 +52,7 @@ const starButton = document.getElementById("star-button");
 const dueEl = document.getElementById("due");
 const reviewButton = document.getElementById("review-button");
 const reviewToggle = document.getElementById("review-toggle");
+const dueLegend = document.getElementById("due-legend");
 
 
 
@@ -143,6 +144,7 @@ function updateReviewUI(){
     reviewButton.hidden = !reviewOn;
     starButton.hidden = !reviewOn;
     dueEl.hidden = !reviewOn;
+    dueLegend.hidden = !reviewOn;
 }
 
 function getReview(ref) {
@@ -200,7 +202,7 @@ function updateDueCount(){
             count++;
         }
     }
-    dueEl.textContent = "Verses due for review: " + count + "   (• = due, ⭐ = starred)";
+    dueEl.textContent = "Verses due for review: " + count;
 }
 
 
@@ -297,7 +299,7 @@ reviewToggle.addEventListener("click", function () {
     reviewOn = !reviewOn;
     reviewToggle.textContent = reviewOn ? "Review: ON" : "Review: OFF";
 
-    reviewToggle.classList.toggle("active");
+    reviewToggle.classList.toggle("active", reviewOn);
     updateReviewUI();
     updateDropdown();
     input.focus();
