@@ -51,6 +51,7 @@ const bestEl = document.getElementById("best");
 const starButton = document.getElementById("star-button");
 const dueEl = document.getElementById("due");
 const reviewButton = document.getElementById("review-button");
+const reviewToggle = document.getElementById("review-toggle");
 
 
 
@@ -60,6 +61,7 @@ let verseText = "";
 let charSpans = [];
 let startTime = null;
 let memoryOn = false;
+let reviewOn = false;
 let mistakes = 0;
 let keystrokes = 0;
 let lastLength = 0;
@@ -137,6 +139,12 @@ function saveLevels() {
     localStorage.setItem("verseLevels", JSON.stringify(getLevels()));
 }
 
+function updateReviewUI(){
+    reviewButton.hidden = !reviewOn;
+    starButton.hidden = !reviewOn;
+    dueEl.hidden = !reviewOn;
+}
+
 function getReview(ref) {
     if (!review[ref]) {
         review[ref] = {last: 0, starred: false}; 
@@ -192,7 +200,7 @@ function updateDueCount(){
             count++;
         }
     }
-    dueEl.textContent = "Verses due for review: " + count;
+    dueEl.textContent = "Verses due for review: " + count + "   (• = due, ⭐ = starred)";
 }
 
 
@@ -211,11 +219,13 @@ function updateDropdown() {
         if (memoryOn){
             label+= " - Lv " + verses[i].level;
         }
-        if (getReview(verses[i].ref).starred) {
-            label += " ⭐";
-        }
-        if (isDue(verses[i])) {
-            label += " •";
+        if (reviewOn){
+            if (getReview(verses[i].ref).starred) {
+                label += " ⭐";
+            }
+            if (isDue(verses[i])) {
+                label += " •";
+            }
         }
         verseSelect.options[i].textContent =  label;   
     }
@@ -281,6 +291,16 @@ memoryButton.addEventListener("click", function () {
     loadVerse(Number(verseSelect.value));
     input.focus();
 
+});
+
+reviewToggle.addEventListener("click", function () {
+    reviewOn = !reviewOn;
+    reviewToggle.textContent = reviewOn ? "Review: ON" : "Review: OFF";
+
+    reviewToggle.classList.toggle("active");
+    updateReviewUI();
+    updateDropdown();
+    input.focus();
 });
 
 starButton.addEventListener("click", function () {
@@ -631,6 +651,7 @@ if (saved !== null) {
 buildDropdown();
 updateDropdown();
 updateDueCount();
+updateReviewUI();
 loadVerse(0);
 input.focus();
 
