@@ -50,11 +50,12 @@ const importFile = document.getElementById("import-file");
 const bestEl = document.getElementById("best");
 const starButton = document.getElementById("star-button");
 const dueEl = document.getElementById("due");
+const reviewButton = document.getElementById("review-button");
 
 
 
 // ============ Game state ============
-const DAY_MS = 24 * 60 * 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;;
 let verseText = "";
 let charSpans = [];
 let startTime = null;
@@ -293,6 +294,38 @@ starButton.addEventListener("click", function () {
     updateDropdown();
     input.focus();
 });
+
+
+reviewButton.addEventListener("click", function () {
+    let bestIndex = -1;
+    let bestStarred = false;
+    let bestOverdue = 0;
+
+    for (let i = 0; i < verses.length; i++) {
+        if (!isDue(verses[i])) {
+            continue;
+        }
+
+        const entry = getReview(verses[i].ref);
+        const overdue = (Date.now() - entry.last) / DAY_MS - reviewDays(verses[i]);
+
+        if (bestIndex === -1 || (entry.starred && !bestStarred) || (entry.starred === bestStarred && overdue > bestOverdue)) {
+            bestIndex = i;
+            bestStarred = entry.starred;
+            bestOverdue = overdue;
+        }
+    }
+    if (bestIndex === -1) {
+            messageEl.textContent = "Nothing due right now. You're all caught up!";
+            return;
+    }
+
+    verseSelect.value = bestIndex;
+    loadVerse(bestIndex);
+    input.focus();
+
+});
+
 
 
 resetButton.addEventListener("click", function () {
