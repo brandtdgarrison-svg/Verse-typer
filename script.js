@@ -19,6 +19,9 @@ let customVerses = savedCustom !== null ? JSON.parse(savedCustom) : [];
 const savedBests = localStorage.getItem("verseBests");
 let bests = savedBests !== null ? JSON.parse(savedBests) : {};
 
+const savedReview = localStorage.getItem("verseReview");
+let review = savedReview !== null ? JSON.parse(savedReview) : {};
+
 for (const verse of customVerses) {
     verses.push({ ref: verse.ref, text: verse.text, level: 1 });
 }
@@ -45,6 +48,7 @@ const exportButton = document.getElementById("export-button");
 const importButton = document.getElementById("import-button");
 const importFile = document.getElementById("import-file");
 const bestEl = document.getElementById("best");
+const starButton = document.getElementById("star-button");
 
 
 
@@ -63,6 +67,7 @@ function loadVerse(index) {
     verseText = verses[index].text;
     referenceEl.textContent = verses[index].ref;
     deleteButton.hidden = index < builtInCount;
+    updateStarButton();
     levelEl.textContent = memoryOn ? "Level " + verses[index].level + " / 10" : "";
 
     const best = bests[verses[index].ref];
@@ -128,6 +133,23 @@ function getLevels() {
 function saveLevels() {
     localStorage.setItem("verseLevels", JSON.stringify(getLevels()));
 }
+
+function getReview(ref) {
+    if (!review[ref]) {
+        review[ref] = {last: 0, starred: false}; 
+    }
+    return review[ref];
+}
+
+function saveReview() {
+    localStorage.setItem("verseReview", JSON.stringify(review));
+}
+
+function updateStarButton() {
+    const starred = getReview(verses[index].ref).starred;
+
+    starButton.textContent = starred ? "⭐ Starred" : "⭐ Star";
+    starButton.classList.toggle("active", starred);
 
 
 function updateDropdown() {
@@ -196,6 +218,17 @@ memoryButton.addEventListener("click", function () {
     input.focus();
 
 });
+
+starButton.addEventListener("click", function () {
+    const current = Number(verseSelect.value);
+    const entry = getReview(verses[current].ref);
+
+    entry.starred = !entry.starred;
+    saveReview();
+    updateStarButton(current);
+    input.focus();
+});
+
 
 resetButton.addEventListener("click", function () {
     const current = Number(verseSelect.value);
@@ -402,6 +435,10 @@ input.addEventListener("input", function () {
 
         messageEl.textContent = "Congratulations! You typed the verse in " + timeText + " with " + mistakes + " " + mistakeWord + ".";
         input.disabled = true;
+
+        const practicedRef = verses[Number(verseSelect.value)].ref;
+        getReview(practicedRef).last = Date.now();
+        saveReview();
 
         if (memoryOn) {
             const current = Number(verseSelect.value);
