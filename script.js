@@ -428,7 +428,8 @@ exportButton.addEventListener("click", function(){
     const data = {
         customVerses: customVerses,
         levels: getLevels(),
-        bests: bests
+        bests: bests,
+        review: review
     };
 
     const text = JSON.stringify(data, null, 2);
@@ -477,6 +478,10 @@ importFile.addEventListener("change", async function () {
 
         if (data.bests) {
             localStorage.setItem("verseBests", JSON.stringify(data.bests));
+        }
+
+        if (data.review) {
+            localStorage.setItem("verseReview", JSON.stringify(data.review));
         }
         
         location.reload();
