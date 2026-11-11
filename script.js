@@ -49,10 +49,12 @@ const importButton = document.getElementById("import-button");
 const importFile = document.getElementById("import-file");
 const bestEl = document.getElementById("best");
 const starButton = document.getElementById("star-button");
+const dueEl = document.getElementById("due");
 
 
 
 // ============ Game state ============
+const DAY_MS = 24 * 60 * 60 * 1000;
 let verseText = "";
 let charSpans = [];
 let startTime = null;
@@ -145,6 +147,54 @@ function saveReview() {
     localStorage.setItem("verseReview", JSON.stringify(review));
 }
 
+function reviewDays(verse){
+    let days = 0;
+    if (verse.level <= 2) {
+        days = 1;
+    }
+    else if (verse.level <= 4) {
+        days = 2;
+    }
+    else if (verse.level <= 6){
+        days = 4;
+    }
+    else if (verse.level <= 8){
+        days = 6;
+    }
+    else{
+        days = 10;
+    }
+
+    if (getReview(verse.ref).starred) {
+        days = days / 2;
+    }
+    return days;
+}
+
+
+function isDue(verse)  {
+    const entry = getReview(verse.ref);;
+
+    if entry.last == 0 {
+        return true;
+    }
+
+    const daysSince = (Date.now() - entry.last) / DAY_MS;
+    return daysSince <= reviewDays(verse);
+}
+
+
+function updateDueCount(){
+    let count = 0;
+    for (const verse of verses) {
+        if isDue(verse){
+            count++;
+        }
+    }
+    dueEl.textContent = "Verses due for review: " + count;
+}
+
+
 function updateStarButton() {
     const starred = getReview(verses[index].ref).starred;
 
@@ -154,6 +204,17 @@ function updateStarButton() {
 
 function updateDropdown() {
     for (let i = 0; i < verses.length; i++) {
+        let label = verses[i].ref;
+
+        if (memoryOn){
+            label+= " - Lv " + verses[i].level;
+        }
+        if (getReview(verses[i].ref).starred) {
+            label += " ⭐";
+        }
+        if (isDue(verses[i])) {
+            label += " •";
+        }
         verseSelect.options[i].textContent = memoryOn ? verses[i].ref + " - Lv " + verses[i].level : verses[i].ref;
     }
 }
@@ -226,6 +287,8 @@ starButton.addEventListener("click", function () {
     entry.starred = !entry.starred;
     saveReview();
     updateStarButton(current);
+    updateDueCount();
+    updateDropdown();
     input.focus();
 });
 
@@ -439,6 +502,8 @@ input.addEventListener("input", function () {
         const practicedRef = verses[Number(verseSelect.value)].ref;
         getReview(practicedRef).last = Date.now();
         saveReview();
+        updateDueCount();
+        updateDropdown();
 
         if (memoryOn) {
             const current = Number(verseSelect.value);
@@ -530,6 +595,7 @@ if (saved !== null) {
 
 buildDropdown();
 updateDropdown();
+updateDueCount();
 loadVerse(0);
 input.focus();
 
