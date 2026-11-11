@@ -69,7 +69,7 @@ function loadVerse(index) {
     verseText = verses[index].text;
     referenceEl.textContent = verses[index].ref;
     deleteButton.hidden = index < builtInCount;
-    updateStarButton();
+    updateStarButton(index);
     levelEl.textContent = memoryOn ? "Level " + verses[index].level + " / 10" : "";
 
     const best = bests[verses[index].ref];
@@ -173,21 +173,21 @@ function reviewDays(verse){
 
 
 function isDue(verse)  {
-    const entry = getReview(verse.ref);;
+    const entry = getReview(verse.ref);
 
-    if entry.last == 0 {
+    if (entry.last === 0) {
         return true;
     }
 
     const daysSince = (Date.now() - entry.last) / DAY_MS;
-    return daysSince <= reviewDays(verse);
+    return daysSince >= reviewDays(verse);
 }
 
 
 function updateDueCount(){
     let count = 0;
     for (const verse of verses) {
-        if isDue(verse){
+        if (isDue(verse)){
             count++;
         }
     }
@@ -195,11 +195,12 @@ function updateDueCount(){
 }
 
 
-function updateStarButton() {
+function updateStarButton(index) {
     const starred = getReview(verses[index].ref).starred;
 
-    starButton.textContent = starred ? "⭐ Starred" : "⭐ Star";
+    starButton.textContent = starred ? "⭐ Starred" : "☆ Star";
     starButton.classList.toggle("active", starred);
+}
 
 
 function updateDropdown() {
@@ -215,9 +216,10 @@ function updateDropdown() {
         if (isDue(verses[i])) {
             label += " •";
         }
-        verseSelect.options[i].textContent = memoryOn ? verses[i].ref + " - Lv " + verses[i].level : verses[i].ref;
+        verseSelect.options[i].textContent =  label;   
     }
 }
+
 
 
 function buildDropdown() {
