@@ -20,6 +20,13 @@ Memory mode and words start disappearing as you get better at a verse.
 - Your level goes up or down automatically based on your accuracy and speed
 - Reset a single verse's level at any time
 
+### Review mode (spaced repetition)
+- Tracks when you last practiced each verse
+- Schedules reviews by level: verses you know well come back less often
+- Star priority verses so they come up twice as often and get recommended first
+- See how many verses are due today, marked right in the verse menu
+- "Review next" jumps to the most important verse that's due
+
 ### Your verses
 - Pick from built-in verses, or jump to a random one
 - Add your own verses (pasted text is cleaned up automatically)
@@ -37,13 +44,13 @@ Data is stored in the browser with localStorage.
 ## What I learned
 - Manipulating the DOM and handling events (input, click, change, submit)
 - Managing app state and saving it with localStorage and JSON
+- Working with time and dates to schedule reviews
 - Reading and writing files in the browser (Blob downloads, file uploads)
 - Validating data and handling errors with try/catch
 - Debugging with browser DevTools
 - Refactoring code into clear sections and reusable functions
 
 ## Roadmap
-- Spaced repetition: show which verses are due for review each day
 - Look up verses automatically from a Bible API
 - First-letter hint mode
 
