@@ -420,12 +420,21 @@ deleteButton.addEventListener("click", function () {
     }
 
     if (confirm("Delete " + verses[current].ref + "?")) {
+        const ref = verses[current].ref;
+        
         verses.splice(current, 1);
         customVerses.splice(current - builtInCount, 1);
         localStorage.setItem("customVerses", JSON.stringify(customVerses));
+
+        delete review[ref];
+        delete bests[ref];
+        saveReview();
+        localStorage.setItem("verseBests", JSON.stringify(bests));
+
         saveLevels();
         buildDropdown();
         updateDropdown();
+        updateDueCount();
         verseSelect.value = 0;
         loadVerse(0);
         input.focus();
