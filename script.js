@@ -53,6 +53,7 @@ const dueEl = document.getElementById("due");
 const reviewButton = document.getElementById("review-button");
 const reviewToggle = document.getElementById("review-toggle");
 const dueLegend = document.getElementById("due-legend");
+const formMessageEl = document.getElementById("form-message");
 
 
 
@@ -376,6 +377,7 @@ addForm.addEventListener("submit", function (event) {
     let text = newText.value.trim();
 
     if (ref === "" || text === "") {
+        formMessageEl.textContent = "Please fill in both the reference and the verse text.";
         return;
     }
 
@@ -661,5 +663,4 @@ updateDueCount();
 updateReviewUI();
 loadVerse(0);
 input.focus();
-
 

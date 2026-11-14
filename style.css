@@ -170,6 +170,11 @@ button.active {
     color: var(--wrong);
 }
 
+#form-message {
+    color: var(--wrong);
+    margin: 0;
+}
+
 .backup {
     display: flex;
     gap: 10px;
