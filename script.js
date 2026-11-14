@@ -72,6 +72,7 @@ function loadVerse(index) {
     verseText = verses[index].text;
     referenceEl.textContent = verses[index].ref;
     deleteButton.hidden = index < builtInCount;
+    resetButton.hidden = !memoryOn;
     updateStarButton(index);
     levelEl.textContent = memoryOn ? "Level " + verses[index].level + " / 10" : "";
 
