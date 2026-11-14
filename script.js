@@ -60,8 +60,8 @@ const DAY_MS = 24 * 60 * 60 * 1000;;
 let verseText = "";
 let charSpans = [];
 let startTime = null;
-let memoryOn = false;
-let reviewOn = false;
+let memoryOn = localStorage.getItem("memoryOn") === "true";
+let reviewOn = localStorage.getItem("reviewOn") === "true";
 let mistakes = 0;
 let keystrokes = 0;
 let lastLength = 0;
@@ -246,6 +246,15 @@ function buildDropdown() {
     }
 }
 
+function updateModeButtons() {
+    memoryButton.textContent = memoryOn ? "Memory: ON" : "Memory: OFF";
+    memoryButton.classList.toggle("active", memoryOn);
+
+    reviewToggle.textContent = reviewOn ? "Review: ON" : "Review: OFF";
+    reviewToggle.classList.toggle("active", reviewOn);
+}
+
+
 
 
 //============= Event Listeners ====================
@@ -281,25 +290,17 @@ randomButton.addEventListener("click", function () {
 
 memoryButton.addEventListener("click", function () {
     memoryOn = !memoryOn;
-    if (memoryOn) {
-        memoryButton.textContent = "Memory: ON";
-    }
-    else {
-        memoryButton.textContent = "Memory: OFF";
-    }
-
-    memoryButton.classList.toggle("active");
+    localStorage.setItem("memoryOn", memoryOn);
+    updateModeButtons();
     updateDropdown();
     loadVerse(Number(verseSelect.value));
     input.focus();
-
 });
 
 reviewToggle.addEventListener("click", function () {
     reviewOn = !reviewOn;
-    reviewToggle.textContent = reviewOn ? "Review: ON" : "Review: OFF";
-
-    reviewToggle.classList.toggle("active", reviewOn);
+    localStorage.setItem("reviewOn", reviewOn);
+    updateModeButtons();
     updateReviewUI();
     updateDropdown();
     input.focus();
@@ -662,6 +663,7 @@ if (saved !== null) {
     }
 }
 
+updateModeButtons();   
 buildDropdown();
 updateDropdown();
 updateDueCount();
