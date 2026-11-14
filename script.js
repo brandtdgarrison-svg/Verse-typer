@@ -363,6 +363,11 @@ resetButton.addEventListener("click", function () {
 
 addToggle.addEventListener("click", function () {
     addForm.hidden = !addForm.hidden;
+    addToggle.textContent = addForm.hidden ? "+ Add verse" : "- Add verse";
+    if (addForm.hidden) {
+        formMessageEl.textContent = "";
+    }
+    
     if (!addForm.hidden) {
         newRef.focus();
     }
@@ -400,6 +405,7 @@ addForm.addEventListener("submit", function (event) {
 
     addForm.reset();
     addForm.hidden = true;
+    addToggle.textContent = "+ Add verse";
     input.focus();
 });
 
